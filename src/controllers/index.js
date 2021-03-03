@@ -53,20 +53,12 @@ const getInfo = programID => {
 
 // Get all the programs.
 router.get('/', (req, res) => {
-	const programsWithDevs = [];
-	let info = {};
-
-	programs.forEach(program => {
-		info = getInfo(program.id);
-		programsWithDevs.push(info);
-	});
-
-	res.send(programsWithDevs);
+  res.send(programs);
 });
 
-// Get information through a program ID.
-router.get('/info/:id', (req, res) => {
-	let info = {};
+// Get program with developer information through a program ID.
+router.get('/programs/:id', (req, res) => {
+	const info = getInfo(req.params.id);
 
 	res.send(info);
 });
