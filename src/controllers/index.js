@@ -12,8 +12,20 @@ const getInfo = programID => {
 	let info = {};
 
 	posProgram = programs.findIndex(program => program.id == programID);
+
+	if (posProgram === -1) {
+		// The program doesn't exist
+		return;
+	}
+
 	program = programs[posProgram];
 	posDeveloper = developers.findIndex(developer => developer.id == program.developer_id);
+
+	if (posDeveloper === -1) {
+		// The developer doesn't exist
+		return;
+	}
+
 	developer = developers[posDeveloper];
 
 	const {
@@ -53,14 +65,18 @@ const getInfo = programID => {
 
 // Get all the programs.
 router.get('/', (req, res) => {
-  res.send(programs);
+	res.send(programs);
 });
 
 // Get program with developer information through a program ID.
 router.get('/programs/:id', (req, res) => {
 	const info = getInfo(req.params.id);
 
-	res.send(info);
+	if (info) {
+		res.send(info);
+	} else {
+		res.status(404).json('not found');
+	}
 });
 
 module.exports = router;
