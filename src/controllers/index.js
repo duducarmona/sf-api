@@ -63,11 +63,6 @@ const getInfo = programID => {
 	return info;
 };
 
-// Get all the programs.
-router.get('/', (req, res) => {
-	res.send(programs);
-});
-
 // Get program with developer information through a program ID.
 router.get('/programs/:id', (req, res) => {
 	const info = getInfo(req.params.id);
@@ -77,6 +72,19 @@ router.get('/programs/:id', (req, res) => {
 	} else {
 		res.status(404).json('not found');
 	}
+});
+
+// Get all the programs.
+router.get('/', (req, res) => {
+	let newPrograms = [];
+	let newProgram = {};
+
+	programs.forEach(program => {
+		newProgram = getInfo(program.id);
+		newPrograms.push(newProgram);
+	});
+
+	res.send(newPrograms);
 });
 
 module.exports = router;
